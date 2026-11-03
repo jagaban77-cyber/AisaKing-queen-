@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>King & Queen | AISA Signature Luxury Showcase</title>
+  <title id="pageTitle">King & Queen | AISA Signature Luxury Showcase</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
       --bg-dark: #0a0b0e;
-      --card-bg: rgba(22, 27, 38, 0.7);
+      --card-bg: rgba(22, 27, 38, 0.85);
       --gold-primary: #d4af37;
       --gold-light: #f3e5ab;
       --gold-dark: #aa7c11;
@@ -19,25 +19,39 @@
       --glass-border: rgba(212, 175, 55, 0.25);
     }
     * { margin:0; padding:0; box-sizing:border-box; font-family:'Plus Jakarta Sans', sans-serif; }
-    body { background: var(--bg-dark); color: var(--text-main); min-height:100vh; padding-bottom: 50px; }
+    body { background: var(--bg-dark); color: var(--text-main); min-height:100vh; padding-bottom: 50px; transition: background 0.3s; }
     header {
       background: linear-gradient(180deg, rgba(10,11,14,0.95) 0%, rgba(10,11,14,0.8) 100%);
       backdrop-filter: blur(12px); border-bottom: 1px solid var(--glass-border);
-      position: sticky; top:0; z-index:100; padding: 15px 20px; display:flex; justify-content:space-between; align-items:center;
+      position: sticky; top:0; z-index:100; padding: 15px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 10px;
     }
     .brand { display:flex; align-items:center; gap:12px; }
     .brand-logo { width:45px; height:45px; border-radius:50%; border:2px solid var(--gold-primary); object-fit:cover; }
     .brand-title { font-family:'Cinzel', serif; font-size:1.4rem; font-weight:700; color:var(--gold-primary); letter-spacing:1px; }
     .aisabackground { font-size:0.75rem; color:var(--gold-light); letter-spacing:2px; font-weight:600; }
-    .admin-btn { background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark)); color:#000; border:none; padding:8px 16px; border-radius:20px; font-weight:700; cursor:pointer; font-size:0.85rem; }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .lang-select { background: #1a202c; color: var(--gold-primary); border: 1px solid var(--glass-border); padding: 7px 12px; border-radius: 20px; font-weight: 600; cursor: pointer; font-size: 0.85rem; }
+    .admin-btn { background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark)); color:#000; border:none; padding:8px 16px; border-radius:20px; font-weight:700; cursor:pointer; font-size:0.85rem; display:flex; align-items:center; gap:6px; }
     .container { max-width:1200px; margin: 20px auto; padding:0 15px; }
     .hero { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80'); background-size:cover; background-position:center; border-radius:16px; padding: 40px 20px; text-align:center; border: 1px solid var(--glass-border); margin-bottom: 30px; }
     .hero h1 { font-family:'Cinzel', serif; color:var(--gold-primary); font-size:2rem; margin-bottom:10px; }
     .hero p { color:var(--text-sub); max-width:600px; margin:0 auto; font-size:0.95rem; }
     .aisa-badge-hero { display:inline-block; margin-top:15px; background:rgba(212,175,55,0.15); border:1px solid var(--gold-primary); padding:6px 16px; border-radius:30px; font-size:0.8rem; color:var(--gold-light); font-weight:600; }
+    
+    /* Admin Modal */
+    .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:1000; justify-content:center; align-items:center; padding:15px; }
+    .modal-content { background:#121620; border:1px solid var(--gold-primary); width:100%; max-width:550px; border-radius:16px; padding:25px; position:relative; max-height:90vh; overflow-y:auto; }
+    .close-modal { position:absolute; top:15px; right:20px; font-size:1.5rem; color:var(--text-sub); cursor:pointer; }
+    .form-group { margin-bottom:15px; }
+    .form-group label { display:block; font-size:0.85rem; color:var(--gold-light); margin-bottom:5px; }
+    .form-control { width:100%; padding:10px; background:#1a202c; border:1px solid var(--glass-border); border-radius:8px; color:#fff; font-size:0.9rem; }
+    .btn-submit { width:100%; background:var(--gold-primary); color:#000; padding:12px; border:none; border-radius:8px; font-weight:700; cursor:pointer; margin-top:10px; }
+    .admin-section-title { font-family:'Cinzel'; color:var(--gold-primary); margin: 20px 0 10px 0; font-size: 1.1rem; border-bottom: 1px solid var(--glass-border); padding-bottom: 5px; }
+
+    /* Grid & Cards */
     .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:20px; }
-    .card { background: var(--card-bg); border-radius:16px; border:1px solid var(--glass-border); overflow:hidden; position:relative; }
-    .card-img { width:100%; height:200px; object-fit:cover; }
+    .card { background: var(--card-bg); border-radius:16px; border:1px solid var(--glass-border); overflow:hidden; position:relative; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    .card-media { width:100%; height:200px; object-fit:cover; display:block; }
     .card-body { padding:15px; }
     .card-title { font-family:'Cinzel', serif; font-size:1.1rem; color:var(--gold-light); margin-bottom:6px; }
     .card-price { font-size:1.2rem; font-weight:700; color:var(--gold-primary); margin-bottom:10px; }
@@ -46,47 +60,318 @@
     .btn-action { flex:1; padding:10px; border-radius:8px; border:none; font-weight:600; cursor:pointer; text-align:center; text-decoration:none; font-size:0.85rem; display:flex; align-items:center; justify-content:center; gap:6px; }
     .btn-wa { background:#25D366; color:#fff; }
     .btn-call { background:var(--gold-primary); color:#000; }
-    .aisa-signature { position:absolute; top:12px; right:12px; background:rgba(0,0,0,0.8); border:1px solid var(--gold-primary); color:var(--gold-primary); font-size:0.7rem; font-weight:800; padding:4px 10px; border-radius:20px; letter-spacing:1px; }
+    .card-actions-admin { display:flex; gap:10px; margin-top:10px; }
+    .btn-sold { background:#d97706; color:#fff; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:0.75rem; flex:1; }
+    .btn-delete { background:var(--accent-red); color:#fff; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-size:0.75rem; flex:1; }
+    .aisa-signature { position:absolute; top:12px; right:12px; background:rgba(0,0,0,0.8); border:1px solid var(--gold-primary); color:var(--gold-primary); font-size:0.7rem; font-weight:800; padding:4px 10px; border-radius:20px; letter-spacing:1px; z-index:10; }
+    .sold-badge { position:absolute; top:12px; left:12px; background:var(--accent-red); color:#fff; font-size:0.7rem; font-weight:800; padding:4px 10px; border-radius:20px; z-index:10; }
   </style>
 </head>
-<body>
+<body id="bodyBg">
 
   <header>
     <div class="brand">
-      <img src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?auto=format&fit=crop&w=200&q=80" alt="Logo" class="brand-logo" id="logoImg">
+      <img id="headerLogo" src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?auto=format&fit=crop&w=200&q=80" alt="Logo" class="brand-logo">
       <div>
-        <div class="brand-title" id="brandTitle">KING & QUEEN</div>
+        <div class="brand-title" id="displayBrandTitle">KING & QUEEN</div>
         <div class="aisabackground">AISA SIGNATURE</div>
       </div>
+    </div>
+    <div class="header-actions">
+      <select id="langSelect" class="lang-select" onchange="switchLanguage(this.value)">
+        <option value="ha">Hausa</option>
+        <option value="en">English</option>
+      </select>
+      <button class="admin-btn" onclick="openAdminModal()"><i class="fa-solid fa-lock"></i> Admin</button>
     </div>
   </header>
 
   <div class="container">
     <div class="hero">
-      <h1>KING & QUEEN LUXURY</h1>
-      <p id="bizDesc">Muna sayar da motoci da gidaje na alfarma a faɗin Najeriya tare da alamar tabbatuwa ta AISA Signature.</p>
-      <div class="aisa-badge-hero"><i class="fa-solid fa-gem"></i> Exclusive AISA Signature</div>
+      <h1 id="heroTitle">KING & QUEEN LUXURY</h1>
+      <p id="heroDesc">Muna sayar da motoci da gidaje na alfarma a faɗin Najeriya tare da alamar tabbatuwa ta AISA Signature.</p>
+      <div class="aisa-badge-hero"><i class="fa-solid fa-gem"></i> <span id="heroBadge">Exclusive AISA Signature</span></div>
     </div>
 
-    <div class="grid" id="itemsGrid">
-      <div class="card">
-        <span class="aisa-signature">AISA VERIFIED</span>
-        <img src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=800&q=80" class="card-img" alt="Peugeot 406">
-        <div class="card-body">
-          <div class="card-title">Peugeot 406 Luxury Edition</div>
-          <div class="card-price">₦5,000,000</div>
-          <div class="card-meta">
-            <span><i class="fa-solid fa-location-dot"></i> Bauchi</span>
-            <span><i class="fa-solid fa-car"></i> Mota</span>
+    <!-- Wajen da kayayyaki ke zuwa -->
+    <div class="grid" id="itemsGrid"></div>
+  </div>
+
+  <!-- Admin Modal Panel -->
+  <div class="modal" id="adminModal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeAdminModal()">&times;</span>
+      <h2 style="font-family:'Cinzel'; color:var(--gold-primary); margin-bottom:15px;" id="adminPanelTitle">Admin Control Panel</h2>
+      
+      <!-- Saitin Shafin da Launuka -->
+      <div class="admin-section-title" id="secBrandSettings">Saitin Brand & Launuka</div>
+      <form id="settingsForm" onsubmit="saveSettings(event)">
+        <div class="form-group">
+          <label id="lblBrandName">Sunan Shafin (Brand Name)</label>
+          <input type="text" id="settingBrandName" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label id="lblLogoUrl">Link din Sabon Logo (Image URL)</label>
+          <input type="url" id="settingLogoUrl" class="form-control" required>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <div class="form-group" style="flex:1;">
+            <label id="lblPrimaryColor">Primary Color</label>
+            <input type="color" id="primaryColorInput" class="form-control" style="height:40px; padding:2px; cursor:pointer;">
           </div>
-          <div class="btn-group">
-            <a href="https://wa.me/2348000000000?text=Ina%20sha'awar%20Peugeot%20406" class="btn-action btn-wa" target="_blank"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-            <a href="tel:08000000000" class="btn-action btn-call"><i class="fa-solid fa-phone"></i> Kira Yanzu</a>
+          <div class="form-group" style="flex:1;">
+            <label id="lblBgColor">Background Color</label>
+            <input type="color" id="bgColorInput" class="form-control" style="height:40px; padding:2px; cursor:pointer;">
           </div>
         </div>
-      </div>
+        <button type="submit" class="btn-submit" style="background:#3b82f6; color:#fff;" id="btnSaveSettings">Sabunta Shafin & Launuka</button>
+      </form>
+
+      <!-- Ƙara Kaya (Hoto ko Bidiyo chini 1) -->
+      <div class="admin-section-title" style="margin-top:25px;" id="secAddItem">Ƙara Sabon Kaya (Hoto ko Bidiyo < 1 Min)</div>
+      <form id="itemForm" onsubmit="addItem(event)">
+        <div class="form-group">
+          <label id="lblItemTitle">Sunan Kaya (Misali: 2023 Benz G-Wagon)</label>
+          <input type="text" id="itemTitle" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label id="lblItemPrice">Farashi (Misali: ₦45,000,000)</label>
+          <input type="text" id="itemPrice" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label id="lblItemLoc">Wuri / Gari (Misali: Abuja / Bauchi)</label>
+          <input type="text" id="itemLocation" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label id="lblMediaType">Nau'in Kafaffen Media</label>
+          <select id="itemMediaType" class="form-control">
+            <option value="image">Hoto (Image URL)</option>
+            <option value="video">Bidiyo (Video URL - ƙasa da minti 1)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label id="lblMediaUrl">Link din Hoto ko Bidiyo (URL)</label>
+          <input type="url" id="itemMediaUrl" class="form-control" placeholder="https://..." required>
+        </div>
+        <button type="submit" class="btn-submit" id="btnSubmitItem">Ajiye da Saki a Website</button>
+      </form>
     </div>
   </div>
 
-</body>
-</html>
+  <script>
+    // Tsarin fassara tsakanin Hausa da Turanci
+    let currentLang = localStorage.getItem('kqLang') || 'en'; // Fara da Turanci ko Hausa kamar yadda kake so
+    document.getElementById('langSelect').value = currentLang;
+
+    const translations = {
+      ha: {
+        heroTitle: "KING & QUEEN LUXURY",
+        heroDesc: "Muna sayar da motoci da gidaje na alfarma a faɗin Najeriya tare da alamar tabbatuwa ta AISA Signature.",
+        heroBadge: "Exclusive AISA Signature",
+        whatsapp: "WhatsApp",
+        call: "Kira",
+        sold: "AN SIYAR",
+        markSold: "Sanya An Siyar",
+        markUnsold: "Mayar da shi Sabo",
+        delete: "Goge",
+        adminTitle: "Admin Control Panel",
+        secBrand: "Saitin Brand & Launuka",
+        lblBrand: "Sunan Shafin (Brand Name)",
+        lblLogo: "Link din Sabon Logo (Image URL)",
+        lblPri: "Primary Color",
+        lblBg: "Background Color",
+        btnSave: "Sabunta Shafin & Launuka",
+        secAdd: "Ƙara Sabon Kaya (Hoto ko Bidiyo < 1 Min)",
+        lblTitle: "Sunan Kaya (Misali: 2023 Benz G-Wagon)",
+        lblPrice: "Farashi (Misali: ₦45,000,000)",
+        lblLoc: "Wuri / Gari (Misali: Abuja / Bauchi)",
+        lblType: "Nau'in Kafaffen Media",
+        lblUrl: "Link din Hoto ko Bidiyo (URL)",
+        btnAdd: "Ajiye da Saki a Website",
+        certified: "AISA Certified"
+      },
+      en: {
+        heroTitle: "KING & QUEEN LUXURY",
+        heroDesc: "We sell luxury cars and elite real estate across Nigeria, verified by the exclusive AISA Signature badge.",
+        heroBadge: "Exclusive AISA Signature",
+        whatsapp: "WhatsApp",
+        call: "Call",
+        sold: "SOLD OUT",
+        markSold: "Mark as Sold",
+        markUnsold: "Mark Available",
+        delete: "Delete",
+        adminTitle: "Admin Control Panel",
+        secBrand: "Brand Settings & Theme",
+        lblBrand: "Brand Name",
+        lblLogo: "New Logo Image URL",
+        lblPri: "Primary Color",
+        lblBg: "Background Color",
+        btnSave: "Update Brand & Theme",
+        secAdd: "Add New Item (Image or Video < 1 Min)",
+        lblTitle: "Item Name (e.g., 2023 Benz G-Wagon)",
+        lblPrice: "Price (e.g., ₦45,000,000)",
+        lblLoc: "Location (e.g., Abuja / Bauchi)",
+        lblType: "Media Type",
+        lblUrl: "Image or Video URL",
+        btnAdd: "Save & Publish to Website",
+        certified: "AISA Certified"
+      }
+    };
+
+    // Fassara ta atomatik idan mutum ya rubuta a Hausa amma mai ziyara yana son Turanci
+    const autoTranslateTerms = {
+      "Motar Alatu": "Luxury Car",
+      "Gida Mai Kyau": "Luxury Real Estate",
+      "Gidan Alfarma": "Elite Villa",
+      "Babban Gida": "Executive Mansion",
+      "Motoci": "Vehicles",
+      "Gidaje": "Real Estate"
+    };
+
+    function translateText(text, targetLang) {
+      if (targetLang === 'ha') return text;
+      // Gwada sauya wasu manyan kalmomi zuwa Turanci idan ana son Turanci
+      let translated = text;
+      for (let ha in autoTranslateTerms) {
+        if (translated.includes(ha)) {
+          translated = translated.replace(ha, autoTranslateTerms[ha]);
+        }
+      }
+      return translated;
+    }
+
+    let siteConfig = JSON.parse(localStorage.getItem('kqConfig')) || {
+      brandName: "KING & QUEEN",
+      logo: "https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?auto=format&fit=crop&w=200&q=80",
+      primaryColor: "#d4af37",
+      bgColor: "#0a0b0e"
+    };
+
+    let items = JSON.parse(localStorage.getItem('kingQueenItems')) || [
+      {
+        title: "Peugeot 406 Luxury Edition",
+        price: "₦5,000,000",
+        location: "Bauchi",
+        mediaType: "image",
+        mediaUrl: "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=800&q=80",
+        isSold: false
+      }
+    ];
+
+    function applyConfig() {
+      document.getElementById('displayBrandTitle').innerText = siteConfig.brandName;
+      document.getElementById('headerLogo').src = siteConfig.logo;
+      document.documentElement.style.setProperty('--gold-primary', siteConfig.primaryColor);
+      document.documentElement.style.setProperty('--bg-dark', siteConfig.bgColor);
+      
+      document.getElementById('settingBrandName').value = siteConfig.brandName;
+      document.getElementById('settingLogoUrl').value = siteConfig.logo;
+      document.getElementById('primaryColorInput').value = siteConfig.primaryColor;
+      document.getElementById('bgColorInput').value = siteConfig.bgColor;
+    }
+
+    function updateLanguageUI() {
+      const t = translations[currentLang];
+      document.getElementById('heroTitle').innerText = t.heroTitle;
+      document.getElementById('heroDesc').innerText = t.heroDesc;
+      document.getElementById('heroBadge').innerText = t.heroBadge;
+      document.getElementById('adminPanelTitle').innerText = t.adminTitle;
+      document.getElementById('secBrandSettings').innerText = t.secBrand;
+      document.getElementById('lblBrandName').innerText = t.lblBrand;
+      document.getElementById('lblLogoUrl').innerText = t.lblLogo;
+      document.getElementById('lblPrimaryColor').innerText = t.lblPri;
+      document.getElementById('lblBgColor').innerText = t.lblBg;
+      document.getElementById('btnSaveSettings').innerText = t.btnSave;
+      document.getElementById('secAddItem').innerText = t.secAdd;
+      document.getElementById('lblItemTitle').innerText = t.lblTitle;
+      document.getElementById('lblItemPrice').innerText = t.lblPrice;
+      document.getElementById('lblItemLoc').innerText = t.lblLoc;
+      document.getElementById('lblMediaType').innerText = t.lblType;
+      document.getElementById('lblMediaUrl').innerText = t.lblUrl;
+      document.getElementById('btnSubmitItem').innerText = t.btnAdd;
+
+      renderItems();
+    }
+
+    function switchLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('kqLang', lang);
+      updateLanguageUI();
+    }
+
+    function renderItems() {
+      const t = translations[currentLang];
+      const grid = document.getElementById('itemsGrid');
+      grid.innerHTML = '';
+      
+      items.forEach((item, index) => {
+        let mediaHtml = '';
+        if (item.mediaType === 'video') {
+          mediaHtml = `<video src="${item.mediaUrl}" class="card-media" controls muted playsinline preload="metadata"></video>`;
+        } else {
+          mediaHtml = `<img src="${item.mediaUrl}" class="card-media" alt="${item.title}">`;
+        }
+
+        let soldBadgeHtml = item.isSold ? `<div class="sold-badge">${t.sold}</div>` : '';
+        let displayTitle = translateText(item.title, currentLang);
+        let displayLocation = translateText(item.location, currentLang);
+
+        grid.innerHTML += `
+          <div class="card">
+            <span class="aisa-signature">AISA VERIFIED</span>
+            ${soldBadgeHtml}
+            ${mediaHtml}
+            <div class="card-body">
+              <div class="card-title">${displayTitle}</div>
+              <div class="card-price" style="color:var(--gold-primary);">${item.price}</div>
+              <div class="card-meta">
+                <span><i class="fa-solid fa-location-dot"></i> ${displayLocation}</span>
+                <span><i class="fa-solid fa-shield-halved"></i> ${t.certified}</span>
+              </div>
+              <div class="btn-group">
+                <a href="https://wa.me/2348000000000?text=Ina%20sha'awar%20${encodeURIComponent(item.title)}" class="btn-action btn-wa" target="_blank"><i class="fa-brands fa-whatsapp"></i> ${t.whatsapp}</a>
+                <a href="tel:08000000000" class="btn-action btn-call" style="background:var(--gold-primary); color:#000;"><i class="fa-solid fa-phone"></i> ${t.call}</a>
+              </div>
+              <div class="card-actions-admin">
+                <button class="btn-sold" onclick="toggleSold(${index})">${item.isSold ? t.markUnsold : t.markSold}</button>
+                <button class="btn-delete" onclick="deleteItem(${index})"><i class="fa-solid fa-trash"></i> ${t.delete}</button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function openAdminModal() {
+      document.getElementById('adminModal').style.display = 'flex';
+    }
+
+    function closeAdminModal() {
+      document.getElementById('adminModal').style.display = 'none';
+    }
+
+    function saveSettings(e) {
+      e.preventDefault();
+      siteConfig.brandName = document.getElementById('settingBrandName').value;
+      siteConfig.logo = document.getElementById('settingLogoUrl').value;
+      siteConfig.primaryColor = document.getElementById('primaryColorInput').value;
+      siteConfig.bgColor = document.getElementById('bgColorInput').value;
+
+      localStorage.setItem('kqConfig', JSON.stringify(siteConfig));
+      applyConfig();
+      closeAdminModal();
+      alert('An sabunta saitunan shafin da launuka nasara!');
+    }
+
+    function addItem(e) {
+      e.preventDefault();
+      const newItem = {
+        title: document.getElementById('itemTitle').value,
+        price: document.getElementById('itemPrice').value,
+        location: document.getElementById('itemLocation').value,
+        mediaType: document.getElementById('itemMediaType').value,
+        mediaUrl: document.getElementById('itemMediaUrl').value,
+        isSold: false
+      };
+      items.unshift(newItem);
+      localStorage
